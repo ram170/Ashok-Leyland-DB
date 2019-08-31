@@ -30,6 +30,7 @@ def remove(l):
                print("Remove? press Y or N")
                if(input()=='Y'):
                    l[r-1]=0
+                   IO[1]+=1
                i+=1    
             except:
                 print("Enter a valid location")
@@ -43,6 +44,17 @@ def remove(l):
        para1=document2.add_paragraph(text2)
        #print(text2)      
        document2.save('C:\\01\\Image processing\\Backup\\bup.docx')
+       text3=str()    
+       document3=Document()
+       for i in range(0,len(IO)):
+          if(i!=len(IO)-1):
+            text3=text3+str(IO[i])+" "
+          else:
+            text3=text3+str(IO[i])
+       para1=document3.add_paragraph(text3)
+       #print(text2)      
+       document3.save('C:\\01\\Image processing\\Backup\\bup2.docx')
+       return l,IO
        return l
 def search(l):
     print("Enter the number of vehicles you wanna search?")
@@ -81,12 +93,19 @@ def reallocate(l):
         #print(text2)      
     document2.save('C:\\01\\Image processing\\Backup\\bup.docx')
     return l
-x=os.listdir('/01/Image processing/Backup/')
+#x=os.listdir('/01/Image processing/Backup/')
 document= Document('/01/Image processing/Backup/bup.docx')
 for para in document.paragraphs:
     temp=para.text
     #print(temp)
 l=list(temp.split(" "))
+document3= Document('/01/Image processing/Backup/bup2.docx')
+for para in document3.paragraphs:
+    temp3=para.text
+    #print(temp3)
+IO=list(temp3.split(" "))
+IO[0]=int(IO[0])
+IO[1]=int(IO[1])
 #print(l)    
 while(1):
    print("What do you want to do?")
@@ -99,6 +118,7 @@ while(1):
    if(do==1):
       rd=[]
       rd=read()
+      flag=0
       for i in range(0,len(rd)):
        if rd[i] not in l:   
         print("Is it a")
@@ -107,26 +127,42 @@ while(1):
         Type=int(input())
         if(Type==1):
             print("Enter position between 1 to 25")
+            flag=1
         elif(Type==2):
             print("Enter position between 26 to 50")
-        get=int(input())
-        l[get-1]=rd[i]          
-        text2=str()
-        document2=Document()
-        for i in range(0,len(l)):
-          if(i!=len(l)-1):
-            text2=text2+str(l[i])+" "
-          else:
-            text2=text2+str(l[i])
-        para1=document2.add_paragraph(text2)
-        #print(text2)      
-        document2.save('C:\\01\\Image processing\\Backup\\bup.docx')
-        print("Vehicle Inwarded")
+            flag=1
+        if(flag==1):    
+            get=int(input())
+            l[get-1]=rd[i]
+            IO[0]+=1
+            text2=str()
+            document2=Document()
+            for i in range(0,len(l)):
+              if(i!=len(l)-1):
+                text2=text2+str(l[i])+" "
+              else:
+                text2=text2+str(l[i])
+            para1=document2.add_paragraph(text2)
+            #print(text2)      
+            document2.save('C:\\01\\Image processing\\Backup\\bup.docx')
+            text3=str()
+            document4=Document()
+            for i in range(0,len(IO)):
+              if(i!=len(IO)-1):
+                text3=text3+str(IO[i])+" "
+              else:
+                text3=text3+str(IO[i])
+            para1=document4.add_paragraph(text3)
+            #print(text2)      
+            document4.save('C:\\01\\Image processing\\Backup\\bup2.docx')
+            print("Vehicle Inwarded")
+        else:
+            print("Enter a valid number")
    if(do==2):
        map(l)
        print("")    
    if(do==3):
-       l=remove(l)
+       l,IO=remove(l)
        print("Vehicle removed successully")
    if(do==4):
        search(l)
